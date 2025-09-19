@@ -42,6 +42,15 @@ const ScanPage: React.FC<ScanPageProps> = ({ onValidate, onCancel }) => {
     };
   }, [isScanning]);
 
+  useEffect(() => {
+  const video = document.querySelector("#qr-code-scanner video") as HTMLVideoElement | null;
+  if (video) {
+    video.setAttribute("playsinline", "true");
+    video.setAttribute("autoplay", "true");
+    video.setAttribute("muted", "true");
+  }
+}, [isScanning]);
+
   const onScanSuccess = (decodedText: string, result: any) => {
     // Create a new material from scanned data
     const newMaterial: Material = {
