@@ -43,20 +43,25 @@ const ScanPage: React.FC<ScanPageProps> = ({ onValidate, onCancel }) => {
   }, [isScanning]);
 
 useEffect(() => {
-  const fixIosVideo = () => {
-    const video = document.querySelector("#qr-code-scanner video") as HTMLVideoElement | null;
+  const container = document.getElementById("qr-code-scanner");
+  if (!container) return;
+
+  const observer = new MutationObserver(() => {
+    const video = container.querySelector("video") as HTMLVideoElement | null;
     if (video) {
       video.setAttribute("playsinline", "true");
       video.setAttribute("autoplay", "true");
       video.setAttribute("muted", "true");
-      video.style.width = "100%";   // CSS inline pour être sûr
-      video.style.height = "auto"; // éviter les distorsions
-      video.style.objectFit = "cover"; // ou "contain" selon ton besoin
-    }
-  };
+      video.style.width = "100%";
+      video.style.height = "auto";
+      video.style.objectFit = "cover";
 
-  const timer = setTimeout(fixIosVideo, 500); // attendre que html5-qrcode insère la balise
-  return () => clearTimeout(timer);
+      observer.disconnect(); // stop once fixed
+    }
+  });
+
+  observer.observe(container, { childList: true, subtree: true });
+  return () => observer.disconnect();
 }, [isScanning]);
 
   const onScanSuccess = (decodedText: string, result: any) => {
