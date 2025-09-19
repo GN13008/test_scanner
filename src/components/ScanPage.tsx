@@ -42,13 +42,21 @@ const ScanPage: React.FC<ScanPageProps> = ({ onValidate, onCancel }) => {
     };
   }, [isScanning]);
 
-  useEffect(() => {
-  const video = document.querySelector("#qr-code-scanner video") as HTMLVideoElement | null;
-  if (video) {
-    video.setAttribute("playsinline", "true");
-    video.setAttribute("autoplay", "true");
-    video.setAttribute("muted", "true");
-  }
+useEffect(() => {
+  const fixIosVideo = () => {
+    const video = document.querySelector("#qr-code-scanner video") as HTMLVideoElement | null;
+    if (video) {
+      video.setAttribute("playsinline", "true");
+      video.setAttribute("autoplay", "true");
+      video.setAttribute("muted", "true");
+      video.style.width = "100%";   // CSS inline pour être sûr
+      video.style.height = "auto"; // éviter les distorsions
+      video.style.objectFit = "cover"; // ou "contain" selon ton besoin
+    }
+  };
+
+  const timer = setTimeout(fixIosVideo, 500); // attendre que html5-qrcode insère la balise
+  return () => clearTimeout(timer);
 }, [isScanning]);
 
   const onScanSuccess = (decodedText: string, result: any) => {
