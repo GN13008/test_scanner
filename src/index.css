@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#qr-code-scanner video {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: cover;
+}
