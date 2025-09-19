@@ -22,7 +22,7 @@ const HomePage: React.FC<HomePageProps> = ({
         <div className="text-center mb-8">
           <div className="flex justify-center items-center gap-3 mb-4">
             <Package className="w-8 h-8 text-indigo-600" />
-            <h1 className="text-3xl font-bold text-gray-800">Scanner Matériel</h1>
+            <h1 className="text-3xl font-bold text-gray-800">Scanner Matériel G</h1>
           </div>
           <p className="text-gray-600">Gérez votre inventaire facilement</p>
         </div>
